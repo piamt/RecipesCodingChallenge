@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  RecipesCodingChallenge
+
+  Created by Pia on 2/10/24.
+  
+*/
+
+"ingredients_title" = "Ingredientes";
+"recipes_title" = "Recipes";
+"search_recipes_placeholder" = "Search recipes";
+"unknown_error" = "An unknown error occured. Try again later.";
+"network_error" = "Please, check your internet connectivity";
+"ok_button" = "Ok";
+"search_button" = "Start search";
