@@ -3,7 +3,7 @@
 ## Requirements
 The task consists on creating a simple app for searching recipes.
 
-- The user should be allowed to enter a search phrase, then tapp on a "search" button to start the search
+- The user should be allowed to enter a search phrase, then tap on a "search" button to start the search
 - Search results should be presented in a list with the name of the recipe and an image
 - No need to implement pagination
 
