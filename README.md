@@ -21,8 +21,8 @@ The task consists on creating a simple app for searching recipes.
 - Target device: iPhone
 
 ## Testing
-Added some Unit Tests to the view model and repository with XCTest framework.  
-Added a UI test to launch the project and make a search with a mocked repository.
+- Added some Unit Tests to the view model and repository with XCTest framework.  
+- Added a UI test to launch the project and make a search with a mocked repository.
 
 ## Decissions
 I created a structure to divide the project in different layers: Presentation, Domain and Data.  
