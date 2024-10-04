@@ -15,14 +15,12 @@ enum RecipeDataSourceResult {
 struct RecipeDataSourceMock: RecipeDataSource {
     
     var result: RecipeDataSourceResult
-    var completion: (() -> Void)?
     
     init(result: RecipeDataSourceResult) {
         self.result = result
     }
     
     func getRecipes(search: String) async throws -> Recipes {
-        completion?()
         switch result {
         case .success:
             return Recipe.examples
