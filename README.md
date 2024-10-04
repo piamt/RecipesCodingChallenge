@@ -1,4 +1,4 @@
-# RecipeCodingChallenge
+# RecipesCodingChallenge
 
 ## Requirements
 The task consists on creating a simple app for searching recipes.
