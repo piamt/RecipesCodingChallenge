@@ -1,9 +1,9 @@
-# RecipeCodingChallenge
+# RecipesCodingChallenge
 
 ## Requirements
 The task consists on creating a simple app for searching recipes.
 
-- The user should be allowed to enter a search phrase, then tapp on a "search" button to start the search
+- The user should be allowed to enter a search phrase, then tap on a "search" button to start the search
 - Search results should be presented in a list with the name of the recipe and an image
 - No need to implement pagination
 
@@ -28,7 +28,7 @@ The task consists on creating a simple app for searching recipes.
 I created a structure to divide the project in different layers: Presentation, Domain and Data.  
 
 1. In the presentation layer, find the views and view models. Also some extensions, subviews and view modifiers.
-2. In the Domain layer, find the use cases and repositories mainly. 
+2. In the Domain layer, find the use cases, repositories and models mainly. 
 3. In the Data layer, find the data sources and API Services (Endpoints declaration, URLSession implementation, etc.)
 
 ## Next steps
