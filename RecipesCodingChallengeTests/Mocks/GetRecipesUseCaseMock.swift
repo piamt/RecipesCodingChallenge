@@ -24,7 +24,7 @@ class GetRecipesUseCaseMock: GetRecipesUseCase {
     func execute(_ search: String) async throws -> Recipes {
         switch result {
         case .success:
-            return Recipe.examples
+            return Recipes(recipes: Recipe.examples, nextLink: "next link")
         case .throwError(let error):
             throw error
         }

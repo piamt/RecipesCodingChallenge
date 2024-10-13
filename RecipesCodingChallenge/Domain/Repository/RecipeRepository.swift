@@ -9,4 +9,5 @@ import Foundation
 
 protocol RecipeRepository {
     func getRecipes(search: String) async throws -> Recipes
+    func getRecipesNextPage(link: String) async throws -> Recipes
 }

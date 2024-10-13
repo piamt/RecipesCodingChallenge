@@ -14,6 +14,7 @@ enum HTTPMethod: String {
 
 enum Endpoint {
     case getRecipes(search: String)
+    case getRecipesNextPage(link: String)
     
     private var baseURL: URL? {
         URL(string: "https://api.edamam.com/".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
@@ -23,16 +24,23 @@ enum Endpoint {
         switch self {
         case .getRecipes:
             return "api/recipes/v2"
+        case .getRecipesNextPage:
+            return ""
         }
     }
     
     var url: URL? {
-        baseURL?.appending(path: path)
+        switch self {
+        case .getRecipesNextPage(let link):
+            return URL(string: link)
+        default:
+            return baseURL?.appending(path: path)
+        }
     }
     
     var httpMethod: HTTPMethod {
         switch self {
-        case .getRecipes:
+        case .getRecipes, .getRecipesNextPage:
             return .GET
         }
     }
@@ -44,10 +52,15 @@ enum Endpoint {
                 "q": search,
                 "field": ["uri", "label", "image", "ingredients"]
             ]
+        case .getRecipesNextPage: return nil
         }
     }
     
     var sharedParams: [String: Any] { // TODO: Define an alternative way to save sensitive data (example: CloudKit)
+        if case .getRecipesNextPage = self {
+            return [:]
+        }
+        
         return [
             "type": "public",
             "app_id": Obfuscator().reveal(key: Constants.app_id), //"a6be5d17"

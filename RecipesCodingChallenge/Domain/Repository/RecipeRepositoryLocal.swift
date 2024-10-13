@@ -10,6 +10,10 @@ import Foundation
 struct RecipeRepositoryLocal: RecipeRepository {
     
     func getRecipes(search: String) async throws -> Recipes {
-        return Recipe.examples
+        return Recipes(recipes: Recipe.examples, nextLink: "next link")
+    }
+    
+    func getRecipesNextPage(link: String) async throws -> Recipes {
+        return Recipes(recipes: Recipe.examples, nextLink: "next link")
     }
 }

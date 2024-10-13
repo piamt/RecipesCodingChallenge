@@ -151,7 +151,7 @@ final class RecipeListViewModelTests: XCTestCase {
 }
 
 extension RecipeListViewModel {
-    public var getRecipes: Recipes {
+    public var getRecipes: [Recipe] {
         self.recipes
     }
     

@@ -7,7 +7,10 @@
 
 import Foundation
 
-typealias Recipes = [Recipe]
+public struct Recipes {
+    let recipes: [Recipe]
+    let nextLink: String
+}
 
 public struct Recipe: Hashable, Codable {
     let uri: String

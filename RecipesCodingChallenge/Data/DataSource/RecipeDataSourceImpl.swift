@@ -8,12 +8,23 @@
 import Foundation
 
 struct RecipeDataSourceImpl: RecipeDataSource {
-    func getRecipes(search: String) async throws -> Recipes {
+    func getRecipes(search: String) async throws -> GetRecipe {
         do {
-            let rec = try await APICaller.shared.fetch(
+            let recipe = try await APICaller.shared.fetch(
                 endpoint: Endpoint.getRecipes(search: search),
                 GetRecipe.self)
-            return rec.hits.compactMap { return $0.recipe }
+            return recipe
+        } catch {
+            throw error
+        }
+    }
+    
+    func getRecipesNextPage(_ link: String) async throws -> GetRecipe {
+        do {
+            let recipe = try await APICaller.shared.fetch(
+                endpoint: Endpoint.getRecipesNextPage(link: link),
+                GetRecipe.self)
+            return recipe
         } catch {
             throw error
         }

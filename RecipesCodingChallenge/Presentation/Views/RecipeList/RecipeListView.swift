@@ -12,6 +12,7 @@ struct RecipeListView: View {
     @ObservedObject var viewModel: RecipeListViewModel
     @State private var searchText = ""
     @State private var fetchingRecipes = false
+    private static let paginationLimitScroll = 5;
     
     init(useCase: GetRecipesUseCase) {
         self.viewModel = RecipeListViewModel(useCase: useCase)
@@ -21,9 +22,15 @@ struct RecipeListView: View {
         NavigationStack {
             ZStack {
                 List {
-                    ForEach(viewModel.recipes, id: \.uri) { recipe in
+                    ForEach(0..<viewModel.recipes.count, id: \.self) { i in
+                        let recipe = viewModel.recipes[i]
                         NavigationLink(value: recipe) {
                             RecipeCell(recipe: recipe)
+                                .onAppear() {
+                                    if i+RecipeListView.paginationLimitScroll == viewModel.recipes.count {
+                                        viewModel.getRecipesNextPage()
+                                    }
+                                }
                         }
                     }
                 }

@@ -44,7 +44,7 @@ final class RecipeRepositoryTests: XCTestCase {
         do {
             let recipes = try await repository.getRecipes(search: "")
             // Then
-            XCTAssertEqual(Recipe.examples, recipes)
+            XCTAssertEqual(Recipe.examples, recipes.recipes)
         } catch {
             XCTFail()
         }

@@ -8,5 +8,6 @@
 import Foundation
 
 protocol RecipeDataSource {
-    func getRecipes(search: String) async throws -> Recipes
+    func getRecipes(search: String) async throws -> GetRecipe
+    func getRecipesNextPage(_ link: String) async throws -> GetRecipe
 }
