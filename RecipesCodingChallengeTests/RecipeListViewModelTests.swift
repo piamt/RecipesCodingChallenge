@@ -21,7 +21,7 @@ final class RecipeListViewModelTests: XCTestCase {
         ViewDispatcher.shared.dispatcher = DispatcherMock()
         
         getRecipesUseCaseError = GetRecipesUseCaseMock(result: .throwError(.decodingError))
-        getRecipesUseCaseSuccess = GetRecipesUseCaseMock(result: .success)
+        getRecipesUseCaseSuccess = GetRecipesUseCaseMock(result: .success(Recipes(recipes: Recipe.examples, nextLink: "next link")))
         searchText = "Chicken soup"
     }
 

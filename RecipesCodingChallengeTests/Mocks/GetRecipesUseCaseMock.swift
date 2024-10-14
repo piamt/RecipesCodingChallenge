@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 enum GetRecipesUseCaseResult {
-    case success
+    case success(Recipes)
     case throwError(GetRecipesUseCaseError)
 }
 
@@ -23,8 +23,8 @@ class GetRecipesUseCaseMock: GetRecipesUseCase {
     
     func execute(_ search: String) async throws -> Recipes {
         switch result {
-        case .success:
-            return Recipes(recipes: Recipe.examples, nextLink: "next link")
+        case .success(let recipes):
+            return recipes
         case .throwError(let error):
             throw error
         }

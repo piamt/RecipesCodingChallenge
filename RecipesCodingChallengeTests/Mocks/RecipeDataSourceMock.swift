@@ -8,7 +8,7 @@
 import Foundation
 
 enum RecipeDataSourceResult {
-    case success
+    case success(GetRecipe)
     case throwError(APIError)
 }
 
@@ -20,15 +20,9 @@ struct RecipeDataSourceMock: RecipeDataSource {
         self.result = result
     }
     
-    private var recipes: GetRecipe {
-        GetRecipe(
-            hits: Recipe.examples.map{ RecipeContainer(recipe: $0) },
-            _links: LinksList(next: Link(href: "next page link", title: "title")))
-    }
-    
     func getRecipes(search: String) async throws -> GetRecipe {
         switch result {
-        case .success:
+        case .success(let recipes):
             return recipes
         case .throwError(let error):
             throw error
@@ -37,7 +31,7 @@ struct RecipeDataSourceMock: RecipeDataSource {
     
     func getRecipesNextPage(_ link: String) async throws -> GetRecipe {
         switch result {
-        case .success:
+        case .success(let recipes):
             return recipes
         case .throwError(let error):
             throw error

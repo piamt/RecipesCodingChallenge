@@ -20,8 +20,12 @@ final class RecipeRepositoryTests: XCTestCase {
         
         ViewDispatcher.shared.dispatcher = DispatcherMock()
         
+        let recipes = GetRecipe(
+            hits: Recipe.examples.map{ RecipeContainer(recipe: $0) },
+            _links: LinksList(next: Link(href: "next page link", title: "title")))
+        
         getRecipeDataSourceError = RecipeDataSourceMock(result: .throwError(APIError.badRequest))
-        getRecipeDataSourceSuccess = RecipeDataSourceMock(result: .success)
+        getRecipeDataSourceSuccess = RecipeDataSourceMock(result: .success(recipes))
         searchText = "Chicken soup"
     }
     
