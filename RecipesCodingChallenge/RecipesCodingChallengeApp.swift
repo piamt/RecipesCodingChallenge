@@ -13,9 +13,9 @@ struct RecipesCodingChallengeApp: App {
     var body: some Scene {
         WindowGroup {
             if CommandLine.arguments.contains("-UITests") {
-                RecipeListView(useCase: GetRecipesUseCaseImpl(repository: RecipeRepositoryLocal()))
+                CoordinatorView(uiTests: true)
             } else {
-                RecipeListView(useCase: GetRecipesUseCaseImpl(repository: RecipeRepositoryImp(dataSource: RecipeDataSourceImpl())))
+                CoordinatorView()
             }
         }
     }

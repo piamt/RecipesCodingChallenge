@@ -27,6 +27,6 @@ final class RecipesCodingChallengeUITests: XCTestCase {
         app.navigationBars["Recipes"].searchFields["Search recipes"].typeText("Chicken")
         startSearchButton.tap()
         XCTAssertEqual(app.collectionViews["list_recipes"].cells.count, 2)
-        XCTAssertEqual(app.collectionViews["list_recipes"].cells.firstMatch.buttons.firstMatch.label, "In progress, Miso Soup Potato Chips Recipe")
+        XCTAssertEqual(app.collectionViews["list_recipes"].cells.element(boundBy: 0).staticTexts.element.label, "Miso Soup Potato Chips Recipe")
     }
 }

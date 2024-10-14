@@ -7,7 +7,7 @@
 
 import Foundation
 
-class RecipeDetailViewModel: ObservableObject {
+class RecipeDetailViewModel {
     
     let recipe: Recipe
     
@@ -31,6 +31,6 @@ class RecipeDetailViewModel: ObservableObject {
                     return nil
             }
             return "\(food.capitalizingFirstLetter()): \(Double(round(quantity*100)/100)) \(measure)"
-        }) ?? []
+        }).uniqued() ?? []
     }
 }

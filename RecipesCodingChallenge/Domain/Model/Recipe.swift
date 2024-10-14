@@ -12,12 +12,17 @@ public struct Recipes {
     let nextLink: String
 }
 
-public struct Recipe: Hashable, Codable {
+public struct Recipe: Hashable, Codable, Identifiable {
+    
     let uri: String
     
     let label: String
     let image: String
     let ingredients: [Ingredient]?
+    
+    public var id: String {
+        return uri
+    }
 }
 
 public struct Ingredient: Hashable, Codable {

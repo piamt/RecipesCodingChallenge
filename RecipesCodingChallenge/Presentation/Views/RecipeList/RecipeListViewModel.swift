@@ -7,7 +7,21 @@
 
 import Foundation
 
-class RecipeListViewModel: ObservableObject {
+protocol RecipeListViewModelProtocol: ObservableObject {
+    var getRecipeUseCase: GetRecipesUseCase { get set }
+    var recipes: [Recipe] { get set }
+    var nextLink: String? { get set }
+    var searchButtonAvailable: Bool { get set }
+    var showAlertInternetConnectivity: Bool { get set }
+    var showAlertUnknownError: Bool { get set }
+    var lastSearch: String { get set }
+    
+    func getRecipes(search: String)
+    func getRecipesNextPage()
+    func searchTextChanged()
+}
+
+class RecipeListViewModel: RecipeListViewModelProtocol {
     
     var getRecipeUseCase: GetRecipesUseCase
     
@@ -29,6 +43,7 @@ class RecipeListViewModel: ObservableObject {
             do {
                 ViewDispatcher.shared.execute {
                     self.searchButtonAvailable = false
+                    self.recipes = []
                 }
                 let rec = try await getRecipeUseCase.execute(search)
                 ViewDispatcher.shared.execute {
@@ -57,7 +72,7 @@ class RecipeListViewModel: ObservableObject {
         }
     }
     
-    func errorManagement(_ error: Error) {
+    private func errorManagement(_ error: Error) {
         ViewDispatcher.shared.execute {
             self.searchButtonAvailable = true
         }

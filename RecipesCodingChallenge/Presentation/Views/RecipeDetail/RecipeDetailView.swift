@@ -26,13 +26,13 @@ struct RecipeDetailView: View {
                 }
                 VStack(alignment: .leading) {
                     Text(LocalizedStringKey("ingredients_title")).font(.title2).padding(.vertical)
-                    ForEach(viewModel.ingredients, id: \.self) { ingredient in
+                    ForEach(Array(viewModel.ingredients.enumerated()), id: \.1) { index, ingredient in
                         HStack {
                             Image(systemName: "checkmark.rectangle")
                             Text(ingredient)
                         }
-                        .padding(.bottom, Padding.space.small)
                     }
+                    .padding(.bottom, Padding.space.small)
                 }
                 .padding(.leading, Padding.space.xlarge)
                 .padding(.trailing, Padding.space.xlarge)
