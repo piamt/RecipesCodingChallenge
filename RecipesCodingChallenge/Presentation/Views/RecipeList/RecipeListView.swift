@@ -7,16 +7,16 @@
 
 import SwiftUI
 
-struct RecipeListView: View {
+struct RecipeListView<ViewModel: RecipeListViewModelProtocol>: View {
     
     @EnvironmentObject private var coordinator: Coordinator
-    @StateObject private var viewModel: RecipeListViewModel
+    @StateObject var viewModel: ViewModel
     @State private var searchText = ""
     @State private var fetchingRecipes = false
-    private static let paginationLimitScroll = 5
+    private let paginationLimitScroll = 5
     
-    init(repository: RecipeRepository) {
-        _viewModel = StateObject(wrappedValue: RecipeListViewModel(useCase: GetRecipesUseCaseImpl(repository: repository)))
+    init(viewModel: ViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
     
     var body: some View {
@@ -26,7 +26,7 @@ struct RecipeListView: View {
                     let recipe = viewModel.recipes[index]
                     RecipeCell(recipe: recipe)
                         .onAppear() {
-                            if index+RecipeListView.paginationLimitScroll == viewModel.recipes.count {
+                            if index+paginationLimitScroll == viewModel.recipes.count {
                                 viewModel.getRecipesNextPage()
                             }
                         }
@@ -73,6 +73,8 @@ struct RecipeListView: View {
 
 struct RecipeListView_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeListView(repository: RecipeRepositoryLocal())
+        RecipeListView(viewModel: RecipeListViewModel(
+            getRecipesUseCase: GetRecipesUseCaseImpl(repository: RecipeRepositoryLocal()),
+            getRecipesNextPageUseCase: GetRecipesNextPageUseCaseImpl(repository: RecipeRepositoryLocal())))
     }
 }

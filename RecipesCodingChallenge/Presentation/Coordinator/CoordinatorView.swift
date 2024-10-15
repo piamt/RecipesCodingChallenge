@@ -19,7 +19,9 @@ struct CoordinatorView: View {
     var body: some View {
         NavigationStack(path: $coordinator.path) {
             let repository: RecipeRepository = uiTests ? RecipeRepositoryLocal() : RecipeRepositoryImp(dataSource: RecipeDataSourceImpl())
-            coordinator.build(screen: .recipesList(repository: repository))
+            coordinator.build(screen: .recipesList(viewModel: RecipeListViewModel(
+                getRecipesUseCase: GetRecipesUseCaseImpl(repository: repository),
+                getRecipesNextPageUseCase: GetRecipesNextPageUseCaseImpl(repository: repository))))
                 .navigationDestination(for: Screen.self) { screen in
                     coordinator.build(screen: screen)
                 }

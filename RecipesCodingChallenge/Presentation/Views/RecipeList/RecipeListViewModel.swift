@@ -8,13 +8,10 @@
 import Foundation
 
 protocol RecipeListViewModelProtocol: ObservableObject {
-    var getRecipeUseCase: GetRecipesUseCase { get set }
-    var recipes: [Recipe] { get set }
-    var nextLink: String? { get set }
-    var searchButtonAvailable: Bool { get set }
+    var recipes: [Recipe] { get }
+    var searchButtonAvailable: Bool { get }
     var showAlertInternetConnectivity: Bool { get set }
     var showAlertUnknownError: Bool { get set }
-    var lastSearch: String { get set }
     
     func getRecipes(search: String)
     func getRecipesNextPage()
@@ -23,17 +20,19 @@ protocol RecipeListViewModelProtocol: ObservableObject {
 
 class RecipeListViewModel: RecipeListViewModelProtocol {
     
-    var getRecipeUseCase: GetRecipesUseCase
+    private var getRecipesUseCase: GetRecipesUseCase
+    private var getRecipesNextPageUseCase: GetRecipesNextPageUseCase
+    var lastSearch = ""
+    private var nextLink: String?
     
-    @Published var recipes: [Recipe] = []
-    var nextLink: String?
-    @Published var searchButtonAvailable: Bool = true
+    @Published private(set) var recipes: [Recipe] = []
+    @Published private(set) var searchButtonAvailable: Bool = true
     @Published var showAlertInternetConnectivity: Bool = false
     @Published var showAlertUnknownError: Bool = false
-    var lastSearch = ""
     
-    init(useCase: GetRecipesUseCase) {
-        self.getRecipeUseCase = useCase
+    init(getRecipesUseCase: GetRecipesUseCase, getRecipesNextPageUseCase: GetRecipesNextPageUseCase) {
+        self.getRecipesUseCase = getRecipesUseCase
+        self.getRecipesNextPageUseCase = getRecipesNextPageUseCase
     }
     
     public func getRecipes(search: String) {
@@ -45,7 +44,7 @@ class RecipeListViewModel: RecipeListViewModelProtocol {
                     self.searchButtonAvailable = false
                     self.recipes = []
                 }
-                let rec = try await getRecipeUseCase.execute(search)
+                let rec = try await getRecipesUseCase.execute(lastSearch)
                 ViewDispatcher.shared.execute {
                     self.recipes = rec.recipes
                     self.nextLink = rec.nextLink
@@ -57,12 +56,13 @@ class RecipeListViewModel: RecipeListViewModelProtocol {
     }
     
     public func getRecipesNextPage() {
+        guard let link = nextLink else { return }
         Task {
             do {
                 ViewDispatcher.shared.execute {
                     self.searchButtonAvailable = false
                 }
-                let rec = try await getRecipeUseCase.execute(lastSearch)
+                let rec = try await getRecipesNextPageUseCase.execute(link)
                 ViewDispatcher.shared.execute {
                     self.recipes += rec.recipes
                 }

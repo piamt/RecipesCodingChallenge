@@ -58,7 +58,7 @@ class Coordinator: CoordinatorProtocol {
     @ViewBuilder
     func build(screen: Screen) -> some View {
         switch screen {
-        case .recipesList(let repository): RecipeListView(repository: repository)
+        case .recipesList(let viewModel): RecipeListView(viewModel: viewModel)
         case .recipeDetail(let recipe): RecipeDetailView(recipe: recipe)
         }
     }

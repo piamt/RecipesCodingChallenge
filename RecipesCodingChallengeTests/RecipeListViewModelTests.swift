@@ -12,6 +12,7 @@ final class RecipeListViewModelTests: XCTestCase {
     
     var getRecipesUseCaseError: GetRecipesUseCaseMock!
     var getRecipesUseCaseSuccess: GetRecipesUseCaseMock!
+    var getRecipesNextPageUseCase: GetRecipesNextPageUseCaseMock!
     var searchText: String = ""
     
     override func setUpWithError() throws {
@@ -22,6 +23,7 @@ final class RecipeListViewModelTests: XCTestCase {
         
         getRecipesUseCaseError = GetRecipesUseCaseMock(result: .throwError(.decodingError))
         getRecipesUseCaseSuccess = GetRecipesUseCaseMock(result: .success(Recipes(recipes: Recipe.examples, nextLink: "next link")))
+        getRecipesNextPageUseCase = GetRecipesNextPageUseCaseMock(result: .success(Recipes(recipes: Recipe.examples, nextLink: "next link")))
         searchText = "Chicken soup"
     }
 
@@ -38,7 +40,7 @@ final class RecipeListViewModelTests: XCTestCase {
     
     func testViewModelSuccess_when_GetRecipes_then_recipesFull() {
         // Given
-        let viewModel = RecipeListViewModel(useCase: getRecipesUseCaseSuccess)
+        let viewModel = RecipeListViewModel(getRecipesUseCase: getRecipesUseCaseSuccess, getRecipesNextPageUseCase: getRecipesNextPageUseCase)
         let exp = expectation(description: "test")
         
         // When
@@ -51,12 +53,12 @@ final class RecipeListViewModelTests: XCTestCase {
         waitForExpectations(timeout: 5.0)
     
         // Then
-        XCTAssertEqual(Recipe.examples, viewModel.getRecipes)
+        XCTAssertEqual(Recipe.examples, viewModel.getRecipesArray)
     }
     
     func testViewModelSuccess_when_GetRecipes_then_lastSearchFull() {
         // Given
-        let viewModel = RecipeListViewModel(useCase: getRecipesUseCaseSuccess)
+        let viewModel = RecipeListViewModel(getRecipesUseCase: getRecipesUseCaseSuccess, getRecipesNextPageUseCase: getRecipesNextPageUseCase)
         let exp = expectation(description: "test")
         
         // When
@@ -75,7 +77,7 @@ final class RecipeListViewModelTests: XCTestCase {
     
     func testViewModelSuccess_when_GetRecipes_then_showAlertFalse() {
         // Given
-        let viewModel = RecipeListViewModel(useCase: getRecipesUseCaseSuccess)
+        let viewModel = RecipeListViewModel(getRecipesUseCase: getRecipesUseCaseSuccess, getRecipesNextPageUseCase: getRecipesNextPageUseCase)
         let exp = expectation(description: "test")
         
         // When
@@ -89,12 +91,12 @@ final class RecipeListViewModelTests: XCTestCase {
         waitForExpectations(timeout: 5.0)
     
         // Then
-        XCTAssertEqual(false, viewModel.getshowAlertUnknownError)
+        XCTAssertEqual(false, viewModel.showAlertUnknownError)
     }
     
     func testViewModelError_when_GetRecipes_then_recipesEmpty() {
         // Given
-        let viewModel = RecipeListViewModel(useCase: getRecipesUseCaseError)
+        let viewModel = RecipeListViewModel(getRecipesUseCase: getRecipesUseCaseError, getRecipesNextPageUseCase: getRecipesNextPageUseCase)
         let exp = expectation(description: "test")
         
         // When
@@ -108,12 +110,12 @@ final class RecipeListViewModelTests: XCTestCase {
         waitForExpectations(timeout: 5.0)
     
         // Then
-        XCTAssertEqual([], viewModel.getRecipes)
+        XCTAssertEqual([], viewModel.getRecipesArray)
     }
     
     func testViewModelError_when_GetRecipes_then_lastSearchFull() {
         // Given
-        let viewModel = RecipeListViewModel(useCase: getRecipesUseCaseError)
+        let viewModel = RecipeListViewModel(getRecipesUseCase: getRecipesUseCaseError, getRecipesNextPageUseCase: getRecipesNextPageUseCase)
         let exp = expectation(description: "test")
         
         // When
@@ -132,7 +134,7 @@ final class RecipeListViewModelTests: XCTestCase {
     
     func testViewModelError_when_GetRecipes_then_showAlertTrue() {
         // Given
-        let viewModel = RecipeListViewModel(useCase: getRecipesUseCaseError)
+        let viewModel = RecipeListViewModel(getRecipesUseCase: getRecipesUseCaseError, getRecipesNextPageUseCase: getRecipesNextPageUseCase)
         let exp = expectation(description: "test")
         
         // When
@@ -146,20 +148,16 @@ final class RecipeListViewModelTests: XCTestCase {
         waitForExpectations(timeout: 5.0)
     
         // Then
-        XCTAssertEqual(true, viewModel.getshowAlertUnknownError)
+        XCTAssertEqual(true, viewModel.showAlertUnknownError)
     }
 }
 
 extension RecipeListViewModel {
-    public var getRecipes: [Recipe] {
+    public var getRecipesArray: [Recipe] {
         self.recipes
     }
     
     public var getLastSearch: String {
         self.lastSearch
-    }
-    
-    public var getshowAlertUnknownError: Bool {
-        self.showAlertUnknownError
     }
 }

@@ -7,7 +7,13 @@
 
 import Foundation
 
-class RecipeDetailViewModel {
+protocol RecipeDetailViewModelProtocol {
+    var image: String { get }
+    var label: String { get }
+    var ingredients: [String] { get }
+}
+
+class RecipeDetailViewModel: RecipeDetailViewModelProtocol {
     
     let recipe: Recipe
     

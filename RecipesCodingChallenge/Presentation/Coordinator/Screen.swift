@@ -8,7 +8,7 @@
 import Foundation
 
 enum Screen: Identifiable, Hashable {
-    case recipesList(repository: RecipeRepository)
+    case recipesList(viewModel: RecipeListViewModel)
     case recipeDetail(recipe: Recipe)
     
     var id: String {

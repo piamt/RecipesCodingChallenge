@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RecipeDetailView: View {
     
-    var viewModel: RecipeDetailViewModel
+    var viewModel: RecipeDetailViewModelProtocol
     
     init(recipe: Recipe) {
         self.viewModel = RecipeDetailViewModel(recipe: recipe)
